@@ -1,7 +1,6 @@
 from database import *
 from interactions.ext.get import get
 import interactions
-from discord.ext import commands
 import re
 
 test_guild_id = 0
