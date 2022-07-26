@@ -25,6 +25,8 @@ class AdminStaff (MyDocument):
 class Library(MyDocument):
     ISBN = IntField(required=True)
     bookcase = IntField(default=0)
+    title = StringField(default='none')
+    author = StringField(default='none')
     bookshelf = IntField(default=0)
 
 class TakenBooks(MyDocument):

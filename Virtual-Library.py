@@ -5,8 +5,8 @@ from discord.ext import commands
 from requests.structures import CaseInsensitiveDict
 import re
 
-test_guild_id = 0
-Role_employee_id = 0
+test_guild_id = 
+Role_employee_id = 
 
 bot = interactions.Client(token="😏")
 
@@ -18,6 +18,18 @@ bot = interactions.Client(token="😏")
         interactions.Option(
             name="isbn",
             description="ISBN book",
+            type=interactions.OptionType.STRING,
+            required=True,
+        ),
+        interactions.Option(
+            name="title",
+            description="Title book",
+            type=interactions.OptionType.STRING,
+            required=True,
+        ),
+        interactions.Option(
+            name="author",
+            description="Author book",
             type=interactions.OptionType.STRING,
             required=True,
         ),
@@ -55,7 +67,7 @@ bot = interactions.Client(token="😏")
 
     ],
 )
-async def book_registration(ctx: interactions.CommandContext, isbn: str, bookcase: int, bookshelf: int):
+async def book_registration(ctx: interactions.CommandContext, isbn: str, title: str, author: str, bookcase: int, bookshelf: int):
     if Role_employee_id in ctx.author.roles:
         db_check = Library.get_or_skip(bookcase = bookcase, bookshelf=bookshelf )
         if db_check != None:
@@ -69,6 +81,8 @@ async def book_registration(ctx: interactions.CommandContext, isbn: str, bookcas
         db_library.ISBN = re.sub("[^0-9]", "", isbn)
         db_library.bookcase = bookcase
         db_library.bookshelf = bookshelf
+        db_library.title = title
+        db_library.author = author
         db_library.save()
         await ctx.send(f"The book has been added to the registration system. \nThe address of the book is: `Bookcase №{bookcase}, Bookshelf №{bookshelf}`", ephemeral=True)
     else:
@@ -95,7 +109,7 @@ async def book_registration(ctx: interactions.CommandContext, isbn: str):
             if db_check_taken != None:
                 await ctx.send(f"<@{db_check_taken.whotook}> has this book at the moment.", ephemeral=True)
                 return
-            await ctx.send(f"The book was found.\nThe address of the book is: `Bookcase №{db_check.bookcase}, Bookshelf №{db_check.bookshelf}` ", ephemeral=True)
+            await ctx.send(f"The book was found.\nAuthor of the book `{db_check.author}`,and it's called `{db_check.title}`\nThe address of the book is: `Bookcase №{db_check.bookcase}, Bookshelf №{db_check.bookshelf}` ", ephemeral=True)
             return
         await ctx.send(f"There is no book with this ISBN in the system", ephemeral=True)
     else:
