@@ -1,8 +1,6 @@
 from database import *
 from interactions.ext.get import get
 import interactions
-from discord.ext import commands
-from requests.structures import CaseInsensitiveDict
 import re
 
 test_guild_id = 
